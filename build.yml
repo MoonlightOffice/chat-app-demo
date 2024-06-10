@@ -1,0 +1,42 @@
+### For production deployment
+
+services:
+  apiserver:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/apiserver.Dockerfile
+      x-bake:
+        tags:
+          - sjc.vultrcr.com/moonlightoffice/chat-app-demo-apiserver:v0.0.1
+        platforms:
+          - linux/amd64
+        output: type=registry
+
+
+### For local development
+
+  flutter:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/flutter.Dockerfile
+      x-bake:
+        tags:
+          - sjc.vultrcr.com/moonlightoffice/flutter:latest
+        platforms:
+          - linux/arm64 
+        output: type=docker
+
+
+  go:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/go.Dockerfile
+      x-bake:
+        tags:
+          - sjc.vultrcr.com/moonlightoffice/go:latest
+        platforms:
+          - linux/arm64 
+        output: type=docker
+  
+# docker buildx create --use --name mybuilder 
+# docker buildx bake -f docker-compose.build.yml

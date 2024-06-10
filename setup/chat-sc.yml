@@ -1,0 +1,43 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: chat-sc
+parameters:
+   type: chat-sc
+provisioner: docker.io/hostpath
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: chat-pv
+  labels:
+    vol: chat
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: chat-sc
+  capacity:
+    storage: 200Mi
+  hostPath:
+    path: /Users/wobbuffet/Desktop/workspace/chat-app-demo
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: chat-pvc
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: chat-sc
+  resources:
+    requests:
+      storage: 200Mi
+  selector:
+    matchLabels:
+      vol: chat

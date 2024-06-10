@@ -1,0 +1,78 @@
+apiVersion: pingcap.com/v1alpha1
+kind: TidbCluster
+metadata:
+  name: tidb-cluster
+spec:
+  version: v8.1.0
+  timezone: UTC
+  pvReclaimPolicy: Delete
+  enableDynamicConfiguration: true
+  configUpdateStrategy: RollingUpdate
+  discovery:
+    requests:
+      memory: "10Mi"
+      cpu: "0.1"
+  helper:
+    image: alpine:3.16.0
+
+  pd:
+    baseImage: pingcap/pd
+    version: v8.1.0
+    maxFailoverCount: 0
+    replicas: 1
+    storageClassName: chat-sc
+    requests:
+      memory: "100Mi"
+      cpu: "0.1"
+      storage: "10Mi"
+    config: {}
+    mode: "ms"
+  pdms:
+    - name: "tso"
+      baseImage: pingcap/pd
+      version: v8.1.0
+      replicas: 1
+    - name: "scheduling"
+      baseImage: pingcap/pd
+      version: v8.1.0
+      replicas: 1
+  
+
+  tikv:
+    baseImage: pingcap/tikv
+    version: v8.1.0
+    imagePullPolicy: IfNotPresent
+    maxFailoverCount: 0
+    # If only 1 TiKV is deployed, the TiKV region leader
+    # cannot be transferred during upgrade, so we have
+    # to configure a short timeout
+    evictLeaderTimeout: 1m
+    replicas: 1
+    storageClassName: chat-sc
+    requests:
+      memory: "100Mi"
+      cpu: "0.1"
+      storage: "10Mi"
+    config:
+      storage:
+        # In basic examples, we set this to avoid using too much storage.
+        reserve-space: "0MB"
+      rocksdb:
+        # In basic examples, we set this to avoid the following error in some Kubernetes clusters:
+        # "the maximum number of open file descriptors is too small, got 1024, expect greater or equal to 82920"
+        max-open-files: 256
+      raftdb:
+        max-open-files: 256
+
+  tidb:
+    baseImage: pingcap/tidb
+    version: v8.1.0
+    imagePullPolicy: IfNotPresent
+    maxFailoverCount: 0
+    replicas: 1
+    requests:
+      memory: 100Mi
+      cpu: "0.1"
+    service:
+      type: ClusterIP
+    config: {}
