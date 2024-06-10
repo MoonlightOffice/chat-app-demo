@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -42,5 +43,19 @@ func TestCompareStructs(t *testing.T) {
 	p2.Age = 22
 	if !CompareStructs(p1, p2) {
 		t.Fatal("Invalid")
+	}
+}
+
+func TestGenerateID(t *testing.T) {
+	prefix := "u"
+
+	id := GenerateID(prefix)
+	parts := strings.Split(id, "_")
+	if len(parts) != 3 {
+		t.Fatal("Expected 3, got", len(parts))
+	}
+
+	if !strings.HasPrefix(id, prefix+"_") {
+		t.Fatal(id)
 	}
 }

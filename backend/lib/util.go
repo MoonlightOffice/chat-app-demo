@@ -34,6 +34,13 @@ func GenerateKey(size int) []byte {
 	return key
 }
 
+func GenerateID(prefix string) string {
+	now := time.Now().Unix()
+	random := GenerateRandom(5)
+
+	return fmt.Sprintf("%s_%x_%s", prefix, now, random)
+}
+
 func CompareStructs(obj1, obj2 interface{}) bool {
 	value1 := reflect.ValueOf(obj1)
 	value2 := reflect.ValueOf(obj2)
