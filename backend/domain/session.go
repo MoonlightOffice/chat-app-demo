@@ -20,13 +20,13 @@ type Session struct {
 	IssuedAt    time.Time `json:"issuedAt"`
 }
 
-func NewSession(userId string) Session {
+func NewSession(userId string) *Session {
 	now := time.Now().UTC()
 
 	sessionId := lib.GenerateID("s")
 	sessionCode := base64.RawURLEncoding.EncodeToString(lib.GenerateKey(32))
 
-	return Session{
+	return &Session{
 		UserId:      userId,
 		SessionId:   sessionId,
 		SessionCode: sessionCode,

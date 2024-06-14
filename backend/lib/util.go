@@ -80,7 +80,7 @@ func CompareStructs(obj1, obj2 interface{}) bool {
 			field2.Kind() == reflect.Map ||
 			field2.Kind() == reflect.Slice {
 			// Recursively check structs
-			ok := AlmostEqual(field1.Interface(), field2.Interface())
+			ok := CompareStructs(field1.Interface(), field2.Interface())
 			if !ok {
 				return false
 			}
@@ -90,24 +90,6 @@ func CompareStructs(obj1, obj2 interface{}) bool {
 				return false
 			}
 		}
-	}
-
-	return true
-}
-
-func AlmostEqual(obj1, obj2 interface{}) bool {
-	j1, err := json.Marshal(obj1)
-	if err != nil {
-		return false
-	}
-
-	j2, err := json.Marshal(obj2)
-	if err != nil {
-		return false
-	}
-
-	if len(string(j1)) != len(string(j2)) {
-		return false
 	}
 
 	return true

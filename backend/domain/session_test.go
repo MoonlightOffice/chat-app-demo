@@ -36,7 +36,7 @@ func Test_SessionToken(t *testing.T) {
 		t.Fatal("Invalid session token")
 	}
 
-	if !lib.CompareStructs(s1, s2) {
+	if !lib.CompareStructs(*s1, s2) {
 		t.Fatal("s1 and s2 doesn't match")
 	}
 }
