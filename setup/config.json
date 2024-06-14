@@ -1,0 +1,12 @@
+{
+	"Mode": "local",
+	"MySQLDSN": "root@tcp(tidb-cluster-tidb:4000)/app",
+	"MySQLServerName": "gateway01.ap-southeast-1.prod.aws.tidbcloud.com",
+	"JwtSecret": [
+		{
+			"kid": "1",
+			"value": "hnWi1HvTClfLgV2o-UaE7AtS_R8kejTxwM68FoBB"
+		}
+	],
+	"DBMaxConns": 4
+}

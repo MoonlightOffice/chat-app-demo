@@ -1,7 +1,9 @@
+### Backend: Go
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: chat-svc
+  name: backend-svc
 spec:
   type: LoadBalancer
   selector:
@@ -11,15 +13,10 @@ spec:
     name: godoc
     targetPort: 6060
   - port: 8000
-    name: apiserver
+    name: backend
     targetPort: 8000
-  - port: 8001
-    name: flutter-web-server
-    targetPort: 8001
 
 ---
-
-### Backend: Go
 
 apiVersion: v1
 kind: Pod
@@ -38,15 +35,35 @@ spec:
     volumeMounts:
     - name: chat-app-demo
       mountPath: /chat-app-demo
+    - name: credentials
+      mountPath: /credentials
     command: ["godoc", "-http", "0.0.0.0:6060"]
   volumes:
   - name: chat-app-demo
     persistentVolumeClaim:
       claimName: chat-pvc
+  - name: credentials
+    secret:
+      secretName: chat-app-demo-credentials
 
 ---
 
 ### Frontend: Flutter
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+  - port: 8001
+    name: frontend
+    targetPort: 8001
+
+---
 
 apiVersion: v1
 kind: Pod
