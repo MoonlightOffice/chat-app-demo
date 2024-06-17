@@ -15,8 +15,9 @@ type Config struct {
 	Mode            Mode        `json:"Mode"`
 	MySQLDSN        string      `json:"MySQLDSN"`
 	MySQLServerName string      `json:"MySQLServerName"`
-	JwtSecret       []ServerKey `json:"JwtSecret"`
 	DBMaxConns      float64     `json:"DBMaxConns"`
+	JwtSecret       []ServerKey `json:"JwtSecret"`
+	RedisCluster    []string    `json:"RedisCluster"`
 }
 
 var AppConfig Config

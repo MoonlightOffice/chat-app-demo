@@ -2,11 +2,16 @@
 	"Mode": "local",
 	"MySQLDSN": "root@tcp(tidb-cluster-tidb:4000)/app",
 	"MySQLServerName": "gateway01.ap-southeast-1.prod.aws.tidbcloud.com",
+	"DBMaxConns": 4,
 	"JwtSecret": [
 		{
 			"kid": "1",
 			"value": "hnWi1HvTClfLgV2o-UaE7AtS_R8kejTxwM68FoBB"
 		}
 	],
-	"DBMaxConns": 4
+	"RedisCluster": [
+		"redis-cluster-0.redis:7777",
+		"redis-cluster-1.redis:7777",
+		"redis-cluster-2.redis:7777"
+	]
 }
