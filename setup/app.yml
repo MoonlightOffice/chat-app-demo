@@ -48,7 +48,7 @@ spec:
 
 ---
 
-### Frontend: Flutter
+### Frontend: React
 
 apiVersion: v1
 kind: Service
@@ -72,10 +72,10 @@ metadata:
   labels:
     app: frontend
 spec:
-  terminationGracePeriodSeconds: 2
+  terminationGracePeriodSeconds: 1
   containers:
   - name: frontend
-    image: sjc.vultrcr.com/moonlightoffice/flutter:latest
+    image: node:latest
     imagePullPolicy: IfNotPresent
     ports:
     - containerPort: 8001
@@ -97,7 +97,7 @@ kind: Pod
 metadata:
   name: mysql-client
 spec:
-  terminationGracePeriodSeconds: 2
+  terminationGracePeriodSeconds: 1
   containers:
   - name: mysql-client
     image: mysql
